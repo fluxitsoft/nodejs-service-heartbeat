@@ -15,8 +15,6 @@ sudo add-apt-repository ppa:chris-lea/node.js
 sudo apt-get update 
 sudo apt-get install nodejs npm
 
-other option
-sudo apt-get install nodejs=0.8.23-1chl1~precise1
 ```
 
 ### Install
