@@ -7,8 +7,14 @@ Node.js application example, check diferent types of remote services and expose 
 ### Prereqs
 
 - MongoDB
-- Node (0.8)
-- NPM
+- Node.js (update version) y NPM
+
+```bash
+sudo apt-get install python-software-properties 
+sudo add-apt-repository ppa:chris-lea/node.js 
+sudo apt-get update 
+sudo apt-get install nodejs npm
+```
 
 ### Install
 
