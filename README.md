@@ -12,7 +12,13 @@ Node.js application example, check diferent types of remote services and expose 
 
 ### Install
 
+```bash
 git clone https://github.com/fluxitsoft/nodejs-service-status-example
 cd nodejs-service-status-example
 npm install
 node server.js
+```
+
+
+### API
+Access to http://localhost:3000/services
