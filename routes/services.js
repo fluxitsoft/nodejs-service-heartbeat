@@ -2,6 +2,7 @@ var fs = require('fs');
 var http = require('http');
 var https = require('https');
 var request = require("request");
+var check = require("./service-check");
 
 var MongoClient = require('mongodb').MongoClient,
     Server = require('mongodb').Server,
@@ -12,48 +13,32 @@ var conn = new MongoClient(new Server('localhost', 27017));
 
 /* Chequea un servicio web, corresponde a una pagina web vía http normal */ 
 var checkWeb = function(service, coll){
-	inicio = new Date().getTime();
-	console.log('inicio check web a '+service.url);
-	var options = {
-	    host: service.url,
-	    port: 80,
-	    path: '/'   
-	};
-	request = http.get(options, function(res){
-	    var body = "";
-	    res.on('data', function(data) {
-		body += data;
-	    });
-	    res.on('end', function() {
-		time = new Date().getTime() - inicio;
-
-
-		service.status.status = 'ok';
-		service.status.time = time;
-		console.log('WEB ['+service.url + '] time['+service.status.time+ '] ');
-		coll.update({_id:service._id}, service, function(err, doc){});
-
-	    })
-	    res.on('error', function(e) {
-		console.log("Got error: " + e.message);
-	    });
-	})
-	.on('error', function(e) {
-		service.status.status = 'error';
-		service.status.time = 0;
-		service.status.message = e.message;
-		console.log('WEB ['+service.url + '] error['+service.status.message+ '] ');
-		coll.update({_id:service._id}, service, function(err, doc){});
-	});
-
-
+		check.checkWeb(service,okService, errorService);
 }
 
 /* chequea un servicio en base al API publica de jenkins */
 var checkHudsonProject = function(service, coll){
-	
-	exports.privateCheckHudson(service, coll);
+	check.checkHudson(service,okService, errorService);
 }
+
+/* Funcion que actualiza el estado del servicio si el check fue ok */
+function okService(service, status){
+	console.log('OK ['+service.url + '] TYPE['+service.type + '] TIME['+status.time+ '] STATUS['+status.status+ ']')
+	service.status = status;
+	updateService(service);
+}
+
+/* Funcion que actualiza el estado del servicio si el check fue ok */
+function errorService(service, errorMessage){
+	console.log('ERROR ['+service.url + '] TYPE['+service.type + '] ERROR ['+errorMessage+ ']')
+	service.status.status = error;
+	service.status.time = 0;
+	service.status.message= errorMessage;
+	updateService(service);	
+	
+}
+
+
 
 /* Mapa que contiene todos los cheequeadores por tipo que es la propiedad 'type' del objeto service que se guarda en el mongo */
 var checkers=[];
@@ -90,45 +75,12 @@ conn.open(function(err, mongoClient) {
 
 
 
-/* Chequea un proyecto en hudson en base al api de hudson */
-exports.privateCheckHudson = function(service, coll){
-	projectName = service.url;
-	var options = {
-	   // esta es la instalacion de flux	
-	   // host: 'ci.intranet.fluxit.com.ar',
-	   host: 'builds.apache.org',
-	   //en flux esta en el puerto 80	
-	    port: 443,
-	    // esta es la instalacion de flux
-	    //path: '/hudson-2.0.1/job/'+projectName+ '/lastBuild/api/json',
-	    path: '/job/'+projectName+ '/lastBuild/api/json',
-	   /*
-		En caso de que se requiera instalacion descomentar esta linea
-		 headers: {
-		     'Authorization': 'Basic ' + new Buffer('usruario_ejemplo' + ':' + 'password_ejemplo').toString('base64')
-		   }    
-	   */
-	};
-	//ver como configurar si es http o https
-	request = https.get(options, function(res){
-	    var body = "";
-	    res.on('data', function(data) {
-		body += data;
-	    });
-	    res.on('end', function() {
-		 data = JSON.parse(body);
-
-		console.log('Hudon Proyecto['+data.fullDisplayName+ '] status['+data.result+'] ');
-		service.status.status = data.result;
-		service.status.time = data.duration;
+/* Update service in persistent store */
+function updateService(service){
+	db2.collection('services', function(err, coll) {
 		coll.update({_id:service._id}, service, function(err, doc){});
-
-	    })
-	    res.on('error', function(e) {
-		console.log("Got error: " + e.message);
-	    });
-	});
-
+	})
+	
 }
 
 /* Iterador que recupera todos los servicios y llama a la función checkService que determina como se chequea cada uno */
@@ -136,12 +88,9 @@ exports.checkServices = function() {
 	db2.collection('services', function(err, coll) {
   		coll.find().toArray(function(err, items) {
                 	items.forEach( function(service, index){
-				//console.log('chequeando ... type['+service.type + '] dest ['+service.url)
-				status = checkService(service, coll);
-			}); 
-
+                			status = checkService(service, coll);
+                	}); 
             	});
-		
 	})
 
 };
@@ -153,7 +102,6 @@ function checkService(service, coll){
 
 
 /* Funciones para retornar con http/json el status de los servicios */
-
 exports.findAll = function(req, res) {
     var name = req.query["name"];
     db2.collection('services', function(err, collection) {
