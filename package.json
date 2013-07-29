@@ -1,0 +1,10 @@
+{
+    "name": "nodejs_example",
+    "description": "Server node.js para chequeo de estado de servicios",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "express": "3.x",
+        "mongodb": ">=0.9.6-7"
+    }
+}
