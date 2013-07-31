@@ -58,9 +58,9 @@ conn.open(function(err, mongoClient) {
 	console.log(checkers);
 	console.log('conectado');
     	//elimino todo
-    	db2.collection('services', function(err, collection){   collection.remove({},function(err, removed){console.log(removed);});   });
+    	//db2.collection('services', function(err, collection){   collection.remove({},function(err, removed){console.log(removed);});   });
 	//Lleno todoo
-    	populateDB();
+    	//populateDB();
 	/*
 		  db2.collection('services', {strict:true}, function(err, collection) {
 			if (err) {
