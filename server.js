@@ -2,6 +2,7 @@ var express = require('express'),
 	//use this module to check the services
     services = require('./routes/services');
 
+
 var app = express();
 
 //app.get('/employees/:id/reports', wines.findByManager);
@@ -10,6 +11,7 @@ var app = express();
 
 //API to read the status of the services
 app.get('/services', services.findAll);
+app.get('/status', services.status);
 
 
 app.listen(3000);

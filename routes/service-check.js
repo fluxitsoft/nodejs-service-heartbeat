@@ -21,8 +21,10 @@ exports.checkWeb = function(service, okCallBack, errorCallback){
 		time = new Date().getTime() - inicio;
 
 
-		service.status.status = 'ok';
+		service.status.status = 'OK';
 		service.status.time = time;
+		service.status.message = "";
+		 
 		//console.log('WEB ['+service.url + '] time['+service.status.time+ '] ');
 		okCallBack(service, service.status);
 
@@ -77,10 +79,13 @@ exports.checkHudson = function(service, okCallBack, errorCallback){
 		    	//console.log('Hudon Proyecto['+data.fullDisplayName+ '] status['+data.result+'] ');
 		    	service.status.status = data.result;
 		    	service.status.time = data.duration;
+		    	service.status.message = "";
 		    	okCallBack(service, service.status);
 		  }
 			catch(err)
   			{
+					console.log(err);
+					console.log(body);
 	    			errorCallback(service, "error parsing response");
   			}
 	    })

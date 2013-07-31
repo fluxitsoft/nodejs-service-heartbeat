@@ -119,6 +119,25 @@ exports.findAll = function(req, res) {
 
 
 
+exports.status= function(req, res) {
+	console.log("consultando status")
+	db2.collection('services', function(err, collection) {
+		console.log("collection "+collection)
+    	collection.find().toArray(function(err, items) {
+    		console.log("items "+items)
+    		statuses = [];
+    		items.forEach( function(service, index){
+    			  status = {"name":service.name, "status":service.status.status, "time":service.status.time, "message":service.status.message}
+    			  console.log(status);
+    			  statuses.push(status);
+    			});
+    		res.jsonp(statuses);
+    		});
+    })
+}
+
+
+
 /* llena la base de datos con servicios de ejemplo */
 var populateDB = function() {
  
