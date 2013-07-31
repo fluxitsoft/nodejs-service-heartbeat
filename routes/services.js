@@ -60,7 +60,7 @@ conn.open(function(err, mongoClient) {
     	//elimino todo
     	db2.collection('services', function(err, collection){   collection.remove({},function(err, removed){console.log(removed);});   });
 	//Lleno todoo
-    	//populateDB();
+    	populateDB();
 	/*
 		  db2.collection('services', {strict:true}, function(err, collection) {
 			if (err) {
