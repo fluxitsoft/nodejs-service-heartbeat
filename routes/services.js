@@ -31,7 +31,7 @@ function okService(service, status){
 /* Funcion que actualiza el estado del servicio si el check fue ok */
 function errorService(service, errorMessage){
 	console.log('ERROR ['+service.url + '] TYPE['+service.type + '] ERROR ['+errorMessage+ ']')
-	service.status.status = error;
+	service.status.status = "error";
 	service.status.time = 0;
 	service.status.message= errorMessage;
 	updateService(service);	
@@ -60,7 +60,7 @@ conn.open(function(err, mongoClient) {
     	//elimino todo
     	db2.collection('services', function(err, collection){   collection.remove({},function(err, removed){console.log(removed);});   });
 	//Lleno todoo
-    	populateDB();
+    	//populateDB();
 	/*
 		  db2.collection('services', {strict:true}, function(err, collection) {
 			if (err) {
@@ -126,7 +126,8 @@ var populateDB = function() {
     var services = [
         {"name": "Sitio Web de Fluxit", "type": "web", "url": "www.fluxit.com.ar", "status": {"status":"ok", "time": 0, "message": ""}} ,
         {"name": "RunRun", "type": "web", "url": "runrun.fluxit.com.ar", "status": {"status":"ok", "time": 0, "message": ""}},
-        {"name": "Hadoop-trunk-Commit", "type": "hudson", "url": "Hadoop-trunk-Commit", "status": {"status":"ok", "time": 0, "message":""}} 
+        {"name": "Agile-PROSAMSEG-20Min", "type": "hudson", "url": "Agile-PROSAMSEG-20Min", "status": {"status":"ok", "time": 0, "message":""}, 
+		"params":{ "user":"usr", "password": "pwd"}} 
 	];
  
     db2.collection('services', function(err, collection) {

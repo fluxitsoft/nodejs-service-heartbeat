@@ -50,32 +50,39 @@ exports.checkHudson = function(service, okCallBack, errorCallback){
 	projectName = service.url;
 	var options = {
 	   // esta es la instalacion de flux	
-	   // host: 'ci.intranet.fluxit.com.ar',
-	   host: 'builds.apache.org',
+	   host: 'ci.intranet.fluxit.com.ar',
+	   //host: 'builds.apache.org',
 	   //en flux esta en el puerto 80	
-	    port: 443,
+	   port: 80,
 	    // esta es la instalacion de flux
-	    //path: '/hudson-2.0.1/job/'+projectName+ '/lastBuild/api/json',
-	    path: '/job/'+projectName+ '/lastBuild/api/json',
-	   /*
-		En caso de que se requiera instalacion descomentar esta linea
+	    path: '/hudson-2.0.1/job/'+projectName+ '/lastBuild/api/json',
+	    //path: '/job/'+projectName+ '/lastBuild/api/json',
+	   
+		//En caso de que se requiera auth descomentar esta linea
 		 headers: {
-		     'Authorization': 'Basic ' + new Buffer('usruario_ejemplo' + ':' + 'password_ejemplo').toString('base64')
+		     'Authorization': 'Basic ' + new Buffer(service.params.user + ':' + service.params.password).toString('base64')
 		   }    
-	   */
+	   
 	};
 	//ver como configurar si es http o https
-	request = https.get(options, function(res){
+	request = http.get(options, function(res){
 	    var body = "";
 	    res.on('data', function(data) {
 	    	body += data;
 	    });
 	    res.on('end', function() {
-	    	data = JSON.parse(body);
-	    	//console.log('Hudon Proyecto['+data.fullDisplayName+ '] status['+data.result+'] ');
-	    	service.status.status = data.result;
-	    	service.status.time = data.duration;
-	    	okCallBack(service, service.status);
+		try
+		  {
+		    	data = JSON.parse(body);
+		    	//console.log('Hudon Proyecto['+data.fullDisplayName+ '] status['+data.result+'] ');
+		    	service.status.status = data.result;
+		    	service.status.time = data.duration;
+		    	okCallBack(service, service.status);
+		  }
+			catch(err)
+  			{
+	    			errorCallback(service, "error parsing response");
+  			}
 	    })
 	    res.on('error', function(e) {
 	    	//console.log("Got error: " + e.message);
