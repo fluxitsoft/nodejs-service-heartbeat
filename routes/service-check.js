@@ -77,9 +77,17 @@ exports.checkHudson = function(service, okCallBack, errorCallback){
 		  {
 		    	data = JSON.parse(body);
 		    	//console.log('Hudon Proyecto['+data.fullDisplayName+ '] status['+data.result+'] ');
-		    	service.status.status = data.result;
+		    	if (data.result = 'SUCCESS'){
+		    		service.status.status = 'OK';
+		    		service.status.message = "";
+		    	}else {
+		    		service.status.status = 'ERROR';
+		    		service.status.status = data.result;
+		    	}
+		    	
+		    	
 		    	service.status.time = data.duration;
-		    	service.status.message = "";
+		    	
 		    	okCallBack(service, service.status);
 		  }
 			catch(err)

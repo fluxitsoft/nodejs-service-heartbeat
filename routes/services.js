@@ -127,7 +127,7 @@ exports.status= function(req, res) {
     		console.log("items "+items)
     		statuses = [];
     		items.forEach( function(service, index){
-    			  status = {"name":service.name, "status":service.status.status, "time":service.status.time, "message":service.status.message}
+    			  status = {"name":service.name,"type": service.type, "status":service.status.status, "time":service.status.time, "message":service.status.message}
     			  console.log(status);
     			  statuses.push(status);
     			});
