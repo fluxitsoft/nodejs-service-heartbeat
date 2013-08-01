@@ -82,7 +82,7 @@ exports.checkHudson = function(service, okCallBack, errorCallback){
 		    		service.status.message = "";
 		    	}else {
 		    		service.status.status = 'ERROR';
-		    		service.status.status = data.result;
+		    		service.status.message = data.result;
 		    	}
 		    	
 		    	
