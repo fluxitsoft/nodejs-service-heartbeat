@@ -101,7 +101,7 @@ function checkService(service, coll){
 }
 
 
-/* Funciones para retornar con http/json el status de los servicios */
+/* REST API to read the service definitions*/
 exports.findAll = function(req, res) {
     var name = req.query["name"];
     db2.collection('services', function(err, collection) {
@@ -118,7 +118,7 @@ exports.findAll = function(req, res) {
 };
 
 
-
+/* REST API to check the status of the services */
 exports.status= function(req, res) {
 	console.log("consultando status")
 	db2.collection('services', function(err, collection) {
@@ -138,20 +138,4 @@ exports.status= function(req, res) {
 
 
 
-/* llena la base de datos con servicios de ejemplo */
-var populateDB = function() {
- 
-    console.log("Llenando base de servicios ");
-    var services = [
-        {"name": "Sitio Web de Fluxit", "type": "web", "url": "www.fluxit.com.ar", "status": {"status":"ok", "time": 0, "message": ""}} ,
-        {"name": "RunRun", "type": "web", "url": "runrun.fluxit.com.ar", "status": {"status":"ok", "time": 0, "message": ""}},
-        {"name": "Agile-PROSAMSEG-20Min", "type": "hudson", "url": "Agile-PROSAMSEG-20Min", "status": {"status":"ok", "time": 0, "message":""}, 
-		"params":{ "user":"usr", "password": "pwd"}} 
-	];
- 
-    db2.collection('services', function(err, collection) {
-        collection.insert(services, {safe:true}, function(err, result) {});
-    });
- 
 
-};

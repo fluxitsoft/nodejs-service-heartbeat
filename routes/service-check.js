@@ -2,8 +2,12 @@ var fs = require('fs');
 var http = require('http');
 var https = require('https');
 var request = require("request");
+var ping = require ("net-ping");
 
-// Check if a service represented by a web application is up and return a status object (status code and time)
+/*
+ * SERVICE CHECK - WEB APPLICATION
+ * Check if a service represented by a web application is up and return a status object (status code and time)
+ */ 
 exports.checkWeb = function(service, okCallBack, errorCallback){
 	inicio = new Date().getTime();
 	//console.log('inicio check web a '+service.url);
@@ -47,7 +51,10 @@ exports.checkWeb = function(service, okCallBack, errorCallback){
 
 
 
-/* Check the status of a jenkins project*/
+/* 
+ * SERVICE CHECK - HUDSON PROJECT 
+ * Check the status of a jenkins project
+ * */
 exports.checkHudson = function(service, okCallBack, errorCallback){
 	projectName = service.url;
 	var options = {
@@ -106,4 +113,22 @@ exports.checkHudson = function(service, okCallBack, errorCallback){
 }
 
 
+
+/*
+ * SERVICE CHECK - PING SERVICE
+ * Used to check if a ping to any host or server response.
+ * implemented with https://bitbucket.org/stephenwvickers/node-net-ping/ 
+ */
+
+//TODO Resolve problem when running under non root user
+exports.checkPing = function(service, okCallBack, errorCallback){
+	var session = ping.createSession ();
+
+	session.pingHost ('1.2.3.4', function (error, target) {
+	    if (error)
+	        console.log (target + ": " + error.toString ());
+	    else
+	        console.log (target + ": Alive");
+	});
+}
 
