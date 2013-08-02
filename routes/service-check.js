@@ -2,6 +2,7 @@ var fs = require('fs');
 var http = require('http');
 var https = require('https');
 var request = require("request");
+var pingModule = require('../lib/ping');
 //var ping = require ("net-ping");
 
 /*
@@ -73,6 +74,7 @@ exports.checkHudson = function(service, okCallBack, errorCallback){
 		   }    
 	   
 	};
+
 	//ver como configurar si es http o https
 	request = http.get(options, function(res){
 	    var body = "";
@@ -83,7 +85,7 @@ exports.checkHudson = function(service, okCallBack, errorCallback){
 		try
 		  {
 		    	data = JSON.parse(body);
-		    	//console.log('Hudon Proyecto['+data.fullDisplayName+ '] status['+data.result+'] ');
+		    	
 		    	if (data.result == 'SUCCESS'){
 		    		service.status.status = 'OK';
 		    		service.status.message = "";
@@ -105,7 +107,7 @@ exports.checkHudson = function(service, okCallBack, errorCallback){
   			}
 	    })
 	    res.on('error', function(e) {
-	    	//console.log("Got error: " + e.message);
+	    	
 	    	errorCallback(service, e.message);
 	    });
 	});
@@ -117,19 +119,20 @@ exports.checkHudson = function(service, okCallBack, errorCallback){
 /*
  * SERVICE CHECK - PING SERVICE
  * Used to check if a ping to any host or server response.
- * implemented with https://bitbucket.org/stephenwvickers/node-net-ping/ 
+ * 
  */
-
-//TODO Resolve problem when running under non root user
-/*
 exports.checkPing = function(service, okCallBack, errorCallback){
-	var session = ping.createSession ();
-
-	session.pingHost ('1.2.3.4', function (error, target) {
-	    if (error)
-	        console.log (target + ": " + error.toString ());
-	    else
-	        console.log (target + ": Alive");
-	});
+	pingModule.ping(service.url, 
+	function(err, data){
+		if (err){
+			errorCallback(service, err.code);
+		}else {
+			service.status.status = 'OK';
+			service.status.time = data.time;
+			service.status.message = 'IP '+data.ip + ' TTL '+data.ttl;
+			okCallBack(service, service.status);
+		}
+			
+	});	
 }
-*/
+

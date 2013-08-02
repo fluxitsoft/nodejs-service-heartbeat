@@ -18,7 +18,14 @@ var checkWeb = function(service, coll){
 
 /* chequea un servicio en base al API publica de jenkins */
 var checkHudsonProject = function(service, coll){
+	
 	check.checkHudson(service,okService, errorService);
+}
+
+
+/* chequea un servicio en base al API publica de jenkins */
+var checkPing = function(service, coll){
+	check.checkPing(service, okService, errorService);
 }
 
 /* Funcion que actualiza el estado del servicio si el check fue ok */
@@ -44,6 +51,7 @@ function errorService(service, errorMessage){
 var checkers=[];
 	checkers['web'] = checkWeb;
 	checkers['hudson'] = checkHudsonProject;
+	checkers['ping'] = checkPing;
 
 
 console.log('conectando ....');
