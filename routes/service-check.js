@@ -2,7 +2,7 @@ var fs = require('fs');
 var http = require('http');
 var https = require('https');
 var request = require("request");
-var ping = require ("net-ping");
+//var ping = require ("net-ping");
 
 /*
  * SERVICE CHECK - WEB APPLICATION
@@ -121,6 +121,7 @@ exports.checkHudson = function(service, okCallBack, errorCallback){
  */
 
 //TODO Resolve problem when running under non root user
+/*
 exports.checkPing = function(service, okCallBack, errorCallback){
 	var session = ping.createSession ();
 
@@ -131,4 +132,4 @@ exports.checkPing = function(service, okCallBack, errorCallback){
 	        console.log (target + ": Alive");
 	});
 }
-
+*/
