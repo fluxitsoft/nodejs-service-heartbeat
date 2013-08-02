@@ -1,8 +1,14 @@
-nodejs-service-status-example2
+Node.js Service heartbeat
 ==============================
 
-Node.js application example, check diferent types of remote services and expose a REST API
+Node.js server used to check the status of differents types of services, collect the information and expose it via a REST API
 
+### Type of services
+- HTTP Web Application 
+- Hudson project (build status)
+- TODO ping and ip
+- TODO check database
+-
 
 ### Prereqs
 
@@ -20,7 +26,7 @@ sudo apt-get install nodejs npm
 ### Install
 
 ```bash
-git clone https://github.com/fluxitsoft/nodejs-service-status-example
+git clone https://github.com/fluxitsoft/nodejs-service-heartbeat
 cd nodejs-service-status-example
 npm install
 node server.js
@@ -28,4 +34,5 @@ node server.js
 
 
 ### API
-Access to http://localhost:3000/services
+- Access to the service status  http://localhost:3000/status
+- Access to the service definition  http://localhost:3000/service
