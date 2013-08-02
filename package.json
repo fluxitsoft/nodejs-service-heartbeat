@@ -1,7 +1,7 @@
 {
   "name": "node-service-heartbeat",
   "description": "Node.js server and plugin to check services status",
-  "author":"Fluxit - Santiago Urrizola
+  "author":"Fluxit - Santiago Urrizola", 
   "license":"GNU",
   "version": "0.0.1",
   "private": false,
