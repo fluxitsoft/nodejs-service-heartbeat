@@ -8,6 +8,7 @@ The server also have a small ui implementd with express and websockets.
 - HTTP Web Application full response time and status code
 - Hudson project (build status and Test success)
 - Sonar project (differents metrics like test coverage)
+- JMX MBean Object Attributes (like memory or other numeric attributes of any object)
 - ping response time
 - Telnet successful connection response time
 - TODO check database

@@ -20,7 +20,10 @@ var servicesToCheck = [
 
 {"name": "Sonar Ejemplo Jboss", "type": "sonar", "url": "176173", "status": {"status":"ok", "time": 0, "message":""},  
 	"params":{ "host":"nemo.sonarqube.org", "path":"/", "https":false}}
+,
 
+{"name": "Memory Ussage JMX", "type": "jmx", "url": "java.lang:type=Memory", "status": {"status":"ok", "time": 0, "message":""},  
+	"params":{ "object":"java.lang:type=Memory", "property":"HeapMemoryUsage", "host":"localhost", "port":"8999", "secure":false, "user":"user", "pwd": "pwd"}}
 
 ]
 

@@ -39,6 +39,11 @@ var checkPing = function(service, ok, error){
 	check.checkPing(service, ok, error);
 }
 
+/* chequea un servicio en base al API publica de jenkins */
+var checkJMX= function(service, ok, error){
+	check.checkJMX(service, ok, error);
+}
+
 /* chequea un servicio via telnet */
 var checkTelnet = function(service, ok, error){
 	check.checkTelnet(service, ok, error);
@@ -90,6 +95,8 @@ var checkers=[];
 	checkers['ping'] = checkPing;
 	checkers['telnet'] = checkTelnet;
 	checkers['sonar'] = checkSonar;
+	checkers['jmx'] = checkJMX;
+	
 
 
 

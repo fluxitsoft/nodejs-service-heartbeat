@@ -69,6 +69,13 @@
 			colors = [  '#cc6666', '#E7E658','#93b75f','#66cc66']
 		}
 
+		if (service.type == 'jmx'){
+			//OUT OF COVERAGE
+			max = 50000;
+			intervals = [8000, 15000, 30000, 50000];
+			label = 'KB';
+			//colors = [  '#cc6666', '#E7E658','#93b75f','#66cc66']
+		}
 		
 		
 		

@@ -1,21 +1,21 @@
 {
   "name": "node-service-heartbeat",
   "description": "Node.js server and plugin to check services status",
-  "author":"Fluxit - Santiago Urrizola", 
-  "license":"GNU",
+  "author": "Fluxit - Santiago Urrizola",
+  "license": "GNU",
   "version": "0.0.1",
   "private": false,
-  "repository":{
-      "type":"git",
-      "url":"https://github.com/fluxitsoft/nodejs-service-heartbeat"
-   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fluxitsoft/nodejs-service-heartbeat"
+  },
   "dependencies": {
     "express": "3.x",
     "mongodb": ">=0.9.6-7",
     "node-parse-api": "0.2.0",
     "request": "~2.25.0",
-    "socket.io" : "~0.9.10",
-    "bson": "~0.2.1"
-   
+    "socket.io": "~0.9.10",
+    "bson": "~0.2.1",
+    "jmx": "~0.2.0"
   }
 }
