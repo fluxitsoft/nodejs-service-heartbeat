@@ -6,14 +6,6 @@
 	function plot2(service){
 		var name = service.name.replace(/ /g, '') ;
 		var chartName = 'chart-'+name;
-		
-/*
-  	    var msg = $('<div class="msg" id="'+name+'"></div>')
-  	    msg.append('<span class="name" id="name">'+service.name+'</span>: ')
-  	    	.append('<span class="text" id="status"></span>')
-  	    	.append("<div id='chart"+name+"' class='plot' style='width:320px;height:210px;'></div>");
-
-  */	    
 
   	    var msg = '<div class="msg" id="'+name+'"></div>'+
   	    			'<span class="name" id="name">'+service.name+'</span>: '+
@@ -22,17 +14,11 @@
 		
 		
 		if ($('#'+name).length<1){
-			//console.log('no existe '+name);
 			//no existe el div
 			$('#messages').append($(msg));
-			//addToGrid(service, msg);
 		}
-		//console.log('actualizando '+name +' TIME['+ service.status.time+ ']' );
-		 //console.log($('#status'+name));
 		 $('#status'+name).html(service.status.status+  ' TIME['+ service.status.time+ '] type['+service.type+ ']' );
-		
 		 chartName = 'chart'+name; 
-		 //console.log($("#errorImage"+name).lenght);
 		if (service.status.status == 'ERROR'){
 			//$('#errorImage'+name).show();
 			$('#'+chartName).children().remove();
@@ -45,26 +31,54 @@
 			if (charts[chartName]){
 				charts[chartName].destroy();	
 			}
-			plotC = $.jqplot(chartName,[[service.status.time]],{
-			 	title: service.name,
-		       
-		       seriesDefaults: {
-		           renderer: $.jqplot.MeterGaugeRenderer,
-		           rendererOptions: {
-		        	   label: 'Seconds',
-		               min: 0,
-		               max: 2500,
-		               intervals:[200, 800, 1500, 2500],
-		               intervalColors:['#66cc66', '#93b75f', '#E7E658', '#cc6666']
-		           }
-		       }
-			});
+			
+			plotC = createGauge(chartName, service);
+		
 			charts[chartName] = plotC;
 		}
 		
 	}
     
 
+	function createGauge(chartName, service){
+		
+		
+		
+		min = 0;
+		max = 1500;
+		intervals = [200, 600, 900, 1500];
+		label = 'ms';
+		
+		if (service.type == 'ping' || service.type == 'telnet'){
+			max = 500;
+			intervals = [100, 200, 400, 500];
+		}
+		if (service.type == 'hudson'){
+			max = 100;
+			intervals = [70, 80, 90, 100];
+			label = 'errors';
+		}
+		
+		
+		
+		plotC = $.jqplot(chartName,[[service.status.time]],{
+		 	title: service.name,
+	       
+	       seriesDefaults: {
+	           renderer: $.jqplot.MeterGaugeRenderer,
+	           rendererOptions: {
+	        	   label: label,
+	               min: min,
+	               max: max,
+	               intervals:intervals,
+	               intervalColors:['#66cc66', '#93b75f', '#E7E658', '#cc6666']
+	           }
+	       }
+		});
+		return plotC;
+		
+	}
+	
 		
 
 (function () {
@@ -100,47 +114,6 @@
       var name = data.name.replace(/ /g, '') ;
       
        plot2(data);
-        
-      /*
-      if ($('#'+name).length<1){
-    	  var msg = $('<div class="msg" id="'+name+'"></div>')
-    	  
-    	  if (data.status.status == 'OK'){
-	    	  msg
-	            .append('<span class="name" id="name">' + name + '</span>: ')
-	            .append('<span class="text" id="status">' + data.status.status+ ' TIME['+ data.status.time+ ']</span>');
-	    	  $('#messages')
-	          .append(msg)
-	          .animate({scrollTop: $('#messages').prop('scrollHeight')}, 0);
-	    	  
-	    	  def = "<div id='chart"+name+"' class='plot' style='width:320px;height:210px;'></div>"
-	    	  $(def).appendTo('#messages #'+name);
-	    	  
-	    	  
-	    	  
-	          plot(data.status.time, 'chart'+name, data);
-	          
-	          
-
-    	  }else {
-    		  msg
-	            .append('<span class="name" id="name">' + name + '</span>: ')
-	            .append("<div id='chart"+name+"' class='plot' style='width:320px;height:210px;'></div>")
-	            //.appemdd("<div id='chart"+name+"' class='plot' style='width:320px;height:210px;'></div>")
-	    	  $('#messages')
-	          .append(msg)
-	          .animate({scrollTop: $('#messages').prop('scrollHeight')}, 0);
-    	  }
-    	  
-    	  $("<img src='error.jpg' id='errorImage"+name+"'/>").appendTo('#messages #'+name).hide();
-    	  
-      }else {
-    	  //console.log($('#'+name+' #name'));
-    	  $('#messages #'+name+' #status').html(data.status.status+  ' TIME['+ data.status.time+ ']' );
-          plot(data.status.time, 'chart'+name, data);
-      }
-      
-        */    
     },
  
     //Sends a message to the server,
