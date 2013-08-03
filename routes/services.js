@@ -44,6 +44,11 @@ var checkTelnet = function(service, ok, error){
 	check.checkTelnet(service, ok, error);
 }
 
+/* Cheque el compliance de sonar*/
+var checkSonar = function(service, ok, error){
+	check.checkSonar(service, ok, error);
+}
+
 
 /* DEFAULT OK CALLBACK FUNCTION
  * Funcion que actualiza el estado del servicio si el check fue ok 
@@ -84,6 +89,7 @@ var checkers=[];
 	checkers['hudson'] = checkHudsonProject;
 	checkers['ping'] = checkPing;
 	checkers['telnet'] = checkTelnet;
+	checkers['sonar'] = checkSonar;
 
 
 

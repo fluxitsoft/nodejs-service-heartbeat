@@ -48,16 +48,27 @@
 		max = 1500;
 		intervals = [200, 600, 900, 1500];
 		label = 'ms';
+		colors = ['#66cc66', '#93b75f', '#E7E658', '#cc6666']
 		
 		if (service.type == 'ping' || service.type == 'telnet'){
 			max = 500;
 			intervals = [100, 200, 400, 500];
 		}
 		if (service.type == 'hudson'){
+			//Es el rate de errores sobre los test
 			max = 100;
 			intervals = [70, 80, 90, 100];
-			label = 'errors';
+			label = 'tests';
+			colors = [  '#cc6666', '#E7E658','#93b75f','#66cc66']
 		}
+		if (service.type == 'sonar'){
+			//OUT OF COVERAGE
+			max = 100;
+			intervals = [30, 50, 60, 100];
+			label = 'coverage';
+			colors = [  '#cc6666', '#E7E658','#93b75f','#66cc66']
+		}
+
 		
 		
 		
@@ -71,7 +82,7 @@
 	               min: min,
 	               max: max,
 	               intervals:intervals,
-	               intervalColors:['#66cc66', '#93b75f', '#E7E658', '#cc6666']
+	               intervalColors:colors
 	           }
 	       }
 		});

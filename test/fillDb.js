@@ -44,6 +44,13 @@ var populateDB = function() {
 {"name": "Ping Test Google", "type": "ping", "url": "www.google.com.ar", "status": {"status":"", "time": 0, "message":""}}
 ,
 {"name": "Telnet Goole ", "type": "telnet", "url": "www.google.com.ar", "status": {"status":"", "time": 0, "message":""}}
+,
+
+{"name": "Sonar Ejemplo Jboss", "type": "sonar", "url": "176173", "status": {"status":"ok", "time": 0, "message":""},  
+	"params":{ "host":"nemo.sonarqube.org", "path":"/", "https":false}}
+
+
+
 ]
 
     db2.collection('services', function(err, collection) {

@@ -16,6 +16,12 @@ var servicesToCheck = [
 {"name": "Ping Test", "type": "ping", "url": "www.google.com.ar", "status": {"status":"", "time": 0, "message":""}}
 ,
 {"name": "Telnet to Goole", "type": "telnet", "url": "www.google.com.ar", "status": {"status":"", "time": 0, "message":""}}
+,
+
+{"name": "Sonar Ejemplo Jboss", "type": "sonar", "url": "176173", "status": {"status":"ok", "time": 0, "message":""},  
+	"params":{ "host":"nemo.sonarqube.org", "path":"/", "https":false}}
+
+
 ]
 
 	
