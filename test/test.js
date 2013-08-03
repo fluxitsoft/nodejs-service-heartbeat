@@ -5,11 +5,17 @@ var hb = require('../routes/services.js');
 var servicesToCheck = [
 {"name": "Sitio Web de Fluxit", "type": "web", "url": "www.fluxit.com.ar", "status": {"status":"ok", "time": 0, "message": ""}}
 ,
-{"name": "Agile-PROSAMSEG-20Min", "type": "hudson", "url": "Agile-PROSAMSEG-20Min", "status": {"status":"ok", "time": 0, "message":""},  "params":{ "user":"usr", "password": "pwd"}} 
+/*
+{"name": "Jenkins Tomcat-7.x", "type": "hudson", "url": "Tomcat-7.x", "status": {"status":"ok", "time": 0, "message":""},  
+	"params":{ "user":"usr", "password": "pwd", "host":"builds.apache.org", "path":"/", "https":true}}
+*/ 
+{"name": "Jenkins  maven 3", "type": "hudson", "url": "maven-3.x", "status": {"status":"ok", "time": 0, "message":""},  
+	"params":{ "host":"builds.apache.org", "path":"/", "https":true}}
+
 ,
-{"name": "Ping Test", "type": "ping", "url": "awww.google.com.ar", "status": {"status":"", "time": 0, "message":""}}
+{"name": "Ping Test", "type": "ping", "url": "www.google.com.ar", "status": {"status":"", "time": 0, "message":""}}
 ,
-{"name": "Telnet ", "type": "telnet", "url": "www.google.com.ar", "status": {"status":"", "time": 0, "message":""}}
+{"name": "Telnet to Goole", "type": "telnet", "url": "www.google.com.ar", "status": {"status":"", "time": 0, "message":""}}
 ]
 
 	

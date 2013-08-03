@@ -10,9 +10,9 @@ conn.open(function(err, mongoClient) {
 	
 	console.log('conectado');
     	//elimino todo
-    	//db2.collection('services', function(err, collection){   collection.remove({},function(err, removed){console.log(removed);});   });
+    	db2.collection('services', function(err, collection){   collection.remove({},function(err, removed){console.log(removed);});   });
 	//Lleno todoo
-    	//populateDB();
+    	populateDB();
 	/*
 		  db2.collection('services', {strict:true}, function(err, collection) {
 			if (err) {
@@ -31,14 +31,21 @@ var populateDB = function() {
  
     console.log("Llenando base de servicios ");
     var services = [
-        {"name": "Sitio Web de Fluxit", "type": "web", "url": "www.fluxit.com.ar", "status": {"status":"ok", "time": 0, "message": ""}} ,
-        {"name": "RunRun", "type": "web", "url": "runrun.fluxit.com.ar", "status": {"status":"ok", "time": 0, "message": ""}},
-        {"name": "Agile-PROSAMSEG-20Min", "type": "hudson", "url": "Agile-PROSAMSEG-20Min", "status": {"status":"ok", "time": 0, "message":""}, 
-		"params":{ "user":"usr", "password": "pwd"}} 
-        {"name": "Google by ping", "type": "ping", "url": "www.google.com.ar", "status": {"status":"ok", "time": 0, "message":""}}
-        {"name": "Telnet port", "type": "telnet", "url": "www.google.com.ar:80", "status": {"status":"ok", "time": 0, "message":""}}
-	];
- 
+{"name": "Sitio Web de Fluxit", "type": "web", "url": "www.fluxit.com.ar", "status": {"status":"ok", "time": 0, "message": ""}}
+,
+/*
+{"name": "Jenkins Tomcat-7.x", "type": "hudson", "url": "Tomcat-7.x", "status": {"status":"ok", "time": 0, "message":""},  
+	"params":{ "user":"usr", "password": "pwd", "host":"builds.apache.org", "path":"/", "https":true}}
+*/ 
+{"name": "Jenkins  maven 3", "type": "hudson", "url": "maven-3.x", "status": {"status":"ok", "time": 0, "message":""},  
+	"params":{ "host":"builds.apache.org", "path":"/", "https":true}}
+
+,
+{"name": "Ping Test Google", "type": "ping", "url": "www.google.com.ar", "status": {"status":"", "time": 0, "message":""}}
+,
+{"name": "Telnet Goole ", "type": "telnet", "url": "www.google.com.ar", "status": {"status":"", "time": 0, "message":""}}
+]
+
     db2.collection('services', function(err, collection) {
         collection.insert(services, {safe:true}, function(err, result) {});
     });

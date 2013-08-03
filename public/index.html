@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Notifications</title>
+    <link rel="stylesheet",type="text/css" href="styles.css"/>
+    <link rel="stylesheet",type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.css"/>
+    
+    
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript" src="chat.js"></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.js"></script>
+    <script type="text/javascript" src="http://origin.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.meterGaugeRenderer.min.js"></script>
+
+	    
+    
+    <style type="text/css">
+    .plot {
+		    margin-bottom: 30px;
+		    margin-left: auto;
+		    margin-right: auto;
+		}
+
+
+    </style>
+    
+  </head>
+  <body id='body'>
+    <div id="wrapper">
+
+    
+    
+    <!-- 
+      <h1>Notifications</h1>
+       -->
+      <div id="messages" ></div>
+      
+      
+      <!--  
+      <div class="nic">
+        Your Name
+        <input id="name" name="name" type="text"/>
+      </div>
+      <textarea id="message"></textarea>
+      <input id="send" type="submit" value="Send"/>
+      
+      
+      <input id="register" type="submit" value="Register"/>
+      -->
+      
+    </div>
+    
+    
+    
+    
+    <script type="text/javascript">
+    
+      $(document).ready(function() {
+			var host = window.location;
+			Chat.initialize(host);
+			//http://www.jqplot.com/deploy/dist/examples/meterGauge.html#
+			 
+      });
+    </script>
+    
+    
+    
+    
+    
+	
+	
+    
+  </body>
+</html>

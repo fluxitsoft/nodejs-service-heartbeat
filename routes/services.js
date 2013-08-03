@@ -3,6 +3,11 @@ var http = require('http');
 var https = require('https');
 var request = require("request");
 var check = require("../lib/service-check");
+//This module is required for push notifications
+
+
+var configuration = {notificator: ''}
+
 
 var MongoClient = require('mongodb').MongoClient,
     Server = require('mongodb').Server,
@@ -46,6 +51,9 @@ var checkTelnet = function(service, ok, error){
 function okService(service, status){
 	console.log('OK ['+service.url + '] TYPE['+service.type + '] TIME['+status.time+ '] STATUS['+status.status+ ']')
 	service.status = status;
+	if (configuration.notificator){
+		configuration.notificator(service);
+	}
 	updateService(service);
 }
 
@@ -58,6 +66,9 @@ function errorService(service, errorMessage){
 	service.status.status = "ERROR";
 	service.status.time = 0;
 	service.status.message= errorMessage;
+	if (configuration.notificator){
+		configuration.notificator(service);
+	}
 	updateService(service);	
 	
 }
@@ -86,7 +97,15 @@ function checkService(service, ok, error){
 	
 	if (ok){okCb = ok;} else {okCb = okService};
 	if (error) errorCb = error; else errorCb = errorService
-	checkers[service.type](service, okCb, errorCb);	
+	
+	
+	try
+	  {
+		checkers[service.type](service, okCb, errorCb);	
+	  }catch (err){
+		  errorCb(service, err);
+	  }
+		
 }
 
 exports.check = checkService;
@@ -114,3 +133,7 @@ exports.checkServices = function() {
 
 };
 
+
+
+
+exports.configuration = configuration;
