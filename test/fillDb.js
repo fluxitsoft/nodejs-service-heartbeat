@@ -35,7 +35,8 @@ var populateDB = function() {
         {"name": "RunRun", "type": "web", "url": "runrun.fluxit.com.ar", "status": {"status":"ok", "time": 0, "message": ""}},
         {"name": "Agile-PROSAMSEG-20Min", "type": "hudson", "url": "Agile-PROSAMSEG-20Min", "status": {"status":"ok", "time": 0, "message":""}, 
 		"params":{ "user":"usr", "password": "pwd"}} 
-        {"name": "Google by ping", "type": "ping", "url": "www.google.com.ar", "status": {"status":"ok", "time": 0, "message":""}} 
+        {"name": "Google by ping", "type": "ping", "url": "www.google.com.ar", "status": {"status":"ok", "time": 0, "message":""}}
+        {"name": "Telnet port", "type": "telnet", "url": "www.google.com.ar:80", "status": {"status":"ok", "time": 0, "message":""}}
 	];
  
     db2.collection('services', function(err, collection) {

@@ -1,6 +1,7 @@
 var express = require('express'),
 	//use this module to check the services
-    services = require('./routes/services');
+    api= require('./routes/api');
+	services = require('./routes/services');
 
 
 var app = express();
@@ -10,8 +11,8 @@ var app = express();
 //app.get('/employees', wines.findAll);
 
 //API to read the status of the services
-app.get('/services', services.findAll);
-app.get('/status', services.status);
+app.get('/services', api.findAll);
+app.get('/status', api.status);
 
 
 app.listen(3000);

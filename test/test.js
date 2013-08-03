@@ -1,24 +1,36 @@
-var checker = require('../routes/service-check.js');
+//var checker = require('../routes/service-check.js');
+var hb = require('../routes/services.js');
 
 
-serviceWeb = {"name": "Sitio Web de Fluxit", "type": "web", "url": "www.fluxit.com.ar", "status": {"status":"ok", "time": 0, "message": ""}};
+var servicesToCheck = [
+{"name": "Sitio Web de Fluxit", "type": "web", "url": "www.fluxit.com.ar", "status": {"status":"ok", "time": 0, "message": ""}}
+,
+{"name": "Agile-PROSAMSEG-20Min", "type": "hudson", "url": "Agile-PROSAMSEG-20Min", "status": {"status":"ok", "time": 0, "message":""},  "params":{ "user":"usr", "password": "pwd"}} 
+,
+{"name": "Ping Test", "type": "ping", "url": "awww.google.com.ar", "status": {"status":"", "time": 0, "message":""}}
+,
+{"name": "Telnet ", "type": "telnet", "url": "www.google.com.ar", "status": {"status":"", "time": 0, "message":""}}
+]
 
-//serviceHudson=    {"name": "Agile-PROSAMSEG-20Min", "type": "hudson", "url": "Agile-PROSAMSEG-20Min", "status": {"status":"ok", "time": 0, "message":""},  "params":{ "user":"usr", "password": "pwd"}} ;
-
-
-servicePing=  {"name": "Ping Test", "type": "ping", "url": "awww.google.com.ar", "status": {"status":"", "time": 0, "message":""}};
+	
 
 function okCallBack(service, status){
-	console.log('OK '+service.name + ' status '+status.status + ' time '+status.time);
+	console.log('TEST OK TYPE '+service.type+ ' NAME ' +service.name + ' status '+status.status + ' time '+status.time);
 }
 
 function errorCallBack(service, error){
-	console.log('ERROR '+service.name + ' error '+error);
+	console.log('TEST ERROR TYPE '+service.type+ ' NAME ' +service.name + ' error '+error);
 }
 
+servicesToCheck.forEach(function(e, i){
+			hb.check(e, okCallBack, errorCallBack)
+		}
+);
 
-checker.checkWeb(serviceWeb,okCallBack, errorCallBack);
+
+//hb.check(serviceTelnet);
+//service.checkWeb(serviceWeb,okCallBack, errorCallBack);
 //checker.checkHudson(serviceHudson,okCallBack, errorCallBack);
-checker.checkPing(servicePing,okCallBack, errorCallBack);
+//service.checkPing(servicePing,okCallBack, errorCallBack);
 
 

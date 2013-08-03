@@ -2,7 +2,7 @@ var fs = require('fs');
 var http = require('http');
 var https = require('https');
 var request = require("request");
-var check = require("./service-check");
+var check = require("../lib/service-check");
 
 var MongoClient = require('mongodb').MongoClient,
     Server = require('mongodb').Server,
@@ -10,35 +10,52 @@ var MongoClient = require('mongodb').MongoClient,
 
 var conn = new MongoClient(new Server('localhost', 27017));
 
+conn.open(function(err, mongoClient) {
+	db2 = mongoClient.db("services-status");
+	console.log(checkers);
+	console.log('conectado');
+});
+
+
+
 
 /* Chequea un servicio web, corresponde a una pagina web vía http normal */ 
-var checkWeb = function(service, coll){
-		check.checkWeb(service,okService, errorService);
+var checkWeb = function(service, ok, error){
+		check.checkWeb(service,ok, error);
 }
 
 /* chequea un servicio en base al API publica de jenkins */
-var checkHudsonProject = function(service, coll){
-	
-	check.checkHudson(service,okService, errorService);
+var checkHudsonProject = function(service, ok, error){
+	check.checkHudson(service,ok, error);
 }
-
 
 /* chequea un servicio en base al API publica de jenkins */
-var checkPing = function(service, coll){
-	check.checkPing(service, okService, errorService);
+var checkPing = function(service, ok, error){
+	check.checkPing(service, ok, error);
 }
 
-/* Funcion que actualiza el estado del servicio si el check fue ok */
+/* chequea un servicio via telnet */
+var checkTelnet = function(service, ok, error){
+	check.checkTelnet(service, ok, error);
+}
+
+
+/* DEFAULT OK CALLBACK FUNCTION
+ * Funcion que actualiza el estado del servicio si el check fue ok 
+ * */
 function okService(service, status){
 	console.log('OK ['+service.url + '] TYPE['+service.type + '] TIME['+status.time+ '] STATUS['+status.status+ ']')
 	service.status = status;
 	updateService(service);
 }
 
-/* Funcion que actualiza el estado del servicio si el check fue ok */
+/* 
+ * DEFAULT ERROR CALLBACK FUNCTION
+ * Funcion que actualiza el estado del servicio si el check fue ok 
+ * */
 function errorService(service, errorMessage){
 	console.log('ERROR ['+service.url + '] TYPE['+service.type + '] ERROR ['+errorMessage+ ']')
-	service.status.status = "error";
+	service.status.status = "ERROR";
 	service.status.time = 0;
 	service.status.message= errorMessage;
 	updateService(service);	
@@ -47,39 +64,33 @@ function errorService(service, errorMessage){
 
 
 
-/* Mapa que contiene todos los cheequeadores por tipo que es la propiedad 'type' del objeto service que se guarda en el mongo */
+/* 
+ * Mapa que contiene todos los cheequeadores por tipo que es la propiedad 'type' 
+ * del objeto service que se guarda en el mongo 
+ * */
 var checkers=[];
 	checkers['web'] = checkWeb;
 	checkers['hudson'] = checkHudsonProject;
 	checkers['ping'] = checkPing;
+	checkers['telnet'] = checkTelnet;
 
 
-console.log('conectando ....');
 
 /* 
-Se conecta con la DB y chequea si existe la base de datos
-inicializa todas las variables de conexión con mongo
-*/
-conn.open(function(err, mongoClient) {
+* CORE FUNCTION
+* Take a service and find the appropiated checket to use based on the type of the service
+* ok is a callback function, optional. If not passed the deafult is used (store into mongo)
+* error, is a callback function, optional. if not passed then default is used
+* */
+function checkService(service, ok, error){
 	
-	db2 = mongoClient.db("services-status");
-	console.log(checkers);
-	console.log('conectado');
-    	//elimino todo
-    	//db2.collection('services', function(err, collection){   collection.remove({},function(err, removed){console.log(removed);});   });
-	//Lleno todoo
-    	//populateDB();
-	/*
-		  db2.collection('services', {strict:true}, function(err, collection) {
-			if (err) {
-			    console.log("La base de datos de servicios esta vacia");
-			    populateDB();
-			}
-		    });
+	if (ok){okCb = ok;} else {okCb = okService};
+	if (error) errorCb = error; else errorCb = errorService
+	checkers[service.type](service, okCb, errorCb);	
+}
 
-		*/	
+exports.check = checkService;
 	
-});
 
 
 
@@ -96,54 +107,10 @@ exports.checkServices = function() {
 	db2.collection('services', function(err, coll) {
   		coll.find().toArray(function(err, items) {
                 	items.forEach( function(service, index){
-                			status = checkService(service, coll);
+                			checkService(service);
                 	}); 
             	});
 	})
 
 };
-
-/* Determina como se chequea cada servicio y llama a la funcion correspondiente */
-function checkService(service, coll){
-	checkers[service.type](service,coll);	
-}
-
-
-/* REST API to read the service definitions*/
-exports.findAll = function(req, res) {
-    var name = req.query["name"];
-    db2.collection('services', function(err, collection) {
-        if (name) {
-            collection.find({"name": new RegExp(name, "i")}).toArray(function(err, items) {
-                res.jsonp(items);
-            });
-        } else {
-            collection.find().toArray(function(err, items) {
-                res.jsonp(items);
-            });
-        }
-    });
-};
-
-
-/* REST API to check the status of the services */
-exports.status= function(req, res) {
-	console.log("consultando status")
-	db2.collection('services', function(err, collection) {
-		console.log("collection "+collection)
-    	collection.find().toArray(function(err, items) {
-    		console.log("items "+items)
-    		statuses = [];
-    		items.forEach( function(service, index){
-    			  status = {"name":service.name,"type": service.type, "status":service.status.status, "time":service.status.time, "message":service.status.message}
-    			  console.log(status);
-    			  statuses.push(status);
-    			});
-    		res.jsonp(statuses);
-    		});
-    })
-}
-
-
-
 
