@@ -16,8 +16,15 @@
 server.listen(3000);
 
 //API to read the status of the services
+app.use(express.bodyParser())
 app.get('/services', api.findAll);
+app.get('/services/:id', api.findById); //Get by name	
+app.post('/services', api.saveService); //add new or upate	
+app.put('/services/:id', api.updateService); //update service	
+
+
 app.get('/status', api.status);
+
 app.use("/", express.static(__dirname + '/public'));
 
 
@@ -29,6 +36,7 @@ services.configuration.notificator = function(service){
 
 
 //Call the check service in a background loop
+
 setInterval(function(){
 		services.checkServices();
 }, 5000);

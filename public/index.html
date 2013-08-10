@@ -2,16 +2,17 @@
 <html>
   <head>
     <title>Notifications</title>
-    <link rel="stylesheet",type="text/css" href="styles.css"/>
-    <link rel="stylesheet",type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.css"/>
+    
+        <link rel="stylesheet",type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet",type="text/css" href="css/app.css"/>
     
     
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script type="text/javascript" src="chat.js"></script>
-    <script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.js"></script>
-    <script type="text/javascript" src="http://origin.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.meterGaugeRenderer.min.js"></script>
+    <script type="text/javascript" src="js/chat.js"></script>
 
+	 <script src="js/lib/raphael.2.1.0.min.js"></script>
+     <script src="js/lib/justgage.1.0.1.min.js"></script>
 	    
     
     <style type="text/css">
@@ -22,35 +23,29 @@
 		}
 
 
+.gauge {
+        width:200px; height:160px;
+        display: inline-block;
+        margin: 1em;
+      }
+
     </style>
+    
+    
+    
     
   </head>
   <body id='body'>
+    
+    <div id='monitor'></div>
+  <!-- 
     <div id="wrapper">
-
-    
-    
-    <!-- 
-      <h1>Notifications</h1>
-       -->
       <div id="messages" ></div>
-      
-      
-      <!--  
-      <div class="nic">
-        Your Name
-        <input id="name" name="name" type="text"/>
-      </div>
-      <textarea id="message"></textarea>
-      <input id="send" type="submit" value="Send"/>
-      
-      
-      <input id="register" type="submit" value="Register"/>
-      -->
-      
     </div>
-    
-    
+     -->
+
+
+	    
     
     
     <script type="text/javascript">
@@ -63,7 +58,7 @@
       });
     </script>
     
-    
+    <a href="/services.html" class="btn btn-primary">Administración</a>
     
     
     

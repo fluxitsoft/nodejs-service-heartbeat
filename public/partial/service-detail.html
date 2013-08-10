@@ -1,0 +1,84 @@
+
+ 
+<h1>{{service.name}}</h1>
+
+
+<div>
+<form name="myForm" ng-controller="ServiceDetailCtrl" class="simple-form" novalidate>
+		<h4>Main Data</h4>
+		
+		<fieldset>
+		<div class="row form-group">
+			<div class="form-group">
+      			<label for="name" class="col-lg-2 control-label">Name</label>
+      			<div class="col-lg-10">
+      			<input type="text" class="form-control" ng-model="service.name" required placeholder="Name" id="name">
+      			</div>
+    		</div>
+    		
+			<div class="form-group">
+      			<label for="url" class="col-lg-2 control-label">Url</label>
+      			<div class="col-lg-10">
+      			<input id="url" ng-model="service.url" required  class="form-control" placeholder="Url">
+      			</div>
+    		</div>
+
+			<div class="form-group">
+      			<label for="type" class="col-lg-2 control-label">Type</label>
+      			<div class="col-lg-5">
+      				<select ng-model="service.type" required ng-options="c for c in types"  class="form-control">
+					</select>
+				</div>
+    		</div>
+</div>
+
+
+			<div class="row form-group">
+				  <label class="col-lg-1 control-label">Parámetros</label>
+				  <div class="col-lg-2">
+					  <input name="host" ng-model="service.params.host" class="form-control" placeholder="Host"/>
+				  </div>
+				  <div class="col-lg-2">
+					  <input name="path" ng-model="service.params.path" class="form-control" placeholder="Path"/>
+				  </div>
+				  <div class="col-lg-1">
+				    <input name="https" ng-model="service.params.https" class="form-control" placeholder="https"/>
+				  </div>
+				  <div class="col-lg-1">
+					<input name="port" ng-model="service.params.port" class="form-control" placeholder="port"/>
+				  </div>
+				  
+				</div>
+
+
+			<div class="row form-group">
+				  <label class="col-lg-1 control-label">Status</label>
+				  <div class="col-lg-1">
+					  <input name="satus" ng-model="service.status.status" class="form-control" placeholder="status"/>
+				  </div>
+				  <div class="col-lg-1">
+					  <input name="time" ng-model="service.status.time" class="form-control" placeholder="Time"/>
+				  </div>
+				  <div class="col-lg-5">
+				    <input name="message" ng-model="service.status.message" class="form-control" placeholder="Message"/>
+				  </div>
+				  
+				</div>
+
+
+		</fieldset>
+		
+		
+
+		
+		
+		
+		
+		
+		<!-- <input name="input" ng-model="service.type" required> -->
+ 
+	<input type="submit"  ng-click='update()' value='Save' class="btn btn-primary"/>		
+	<a href="#/services" class="btn btn-success">Volver a la lista</a>
+	
+
+</div>

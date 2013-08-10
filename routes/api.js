@@ -1,5 +1,6 @@
-
+  
 var MongoClient = require('mongodb').MongoClient,
+	ObjectID = require('mongodb').ObjectID,
     Server = require('mongodb').Server,
     db2;
 
@@ -32,6 +33,78 @@ exports.findAll = function(req, res) {
 };
 
 
+exports.findById= function(req, res) {
+    console.log(req.params);
+    var id = req.params.id;
+    console.log('findById: ' + id);
+    db2.collection('services', function(err, collection) {
+        collection.findOne({_id: new ObjectID(id)}, function(err, item) {
+            console.log('Result '+item);
+            res.jsonp(item);
+        });
+    });
+};
+
+
+exports.updateService= function(request, response) {
+	console.log('req:'+ request+ ' method:'+request.method+' body:'+request.body);
+	var id = request.params.id;
+
+	
+		var service = request.body;
+		delete service._id;
+		console.log('Save Service: '+id+ ' JSON:' + service);
+		
+	    db2.collection('services', function(err, collection) {
+	        collection.update({_id: new ObjectID(id)}, service, {safe:true}, function(err, result) {
+	            if (err) {
+	                console.log('Error updating service: ' + err);
+	                response.send({'error':'An error has occurred'});
+	            } else {
+	                console.log('' + result + ' document(s) updated');
+	                response.send(service);
+	            }
+	        });
+		 
+		
+		
+		
+		
+	})
+}
+
+
+
+exports.saveService= function(request, res) {
+	
+	var service = request.body;	 
+	 console.log('save service' + request.id + ' body '+service);
+	 console.log('save Service: '+request.id+ ' JSON:' + JSON.stringify(service));
+	 
+	 
+	    db2.collection('services', function(err, collection) {
+	        collection.insert(service, {safe:true}, function(err, result) {
+	            if (err) {
+	                res.send({'error':'An error has occurred'});
+	            } else {
+	                console.log('Success: ' + JSON.stringify(result[0]));
+	                res.send(result[0]);
+	            }
+	        });
+	    });
+	 
+	 
+	 
+		 
+};
+
+
+
+
+
+
+
+
 /* REST API to check the status of the services */
 exports.status= function(req, res) {
 	console.log("consultando status")
@@ -49,6 +122,9 @@ exports.status= function(req, res) {
     		});
     })
 }
+
+
+
 
 
 

@@ -1,0 +1,66 @@
+
+  <div class="container-fluid" ng-controller="ServiceListCtrl">
+  <div class="row-fluid">
+    
+    <div class="span2">
+      <!--Sidebar content-->
+
+
+ 
+
+ 
+ 
+ 			<div class="row form-group">
+				  <div class="col-lg-5">
+					  <input name="query" ng-model="query" class="form-control" placeholder="Query"/>
+				  </div>
+				  <div class="col-lg-3">
+						<select ng-model="orderProp" class="form-control">
+						  <option value="name">Name</option>
+						  <option value="type">Type</option>
+						</select>
+				  </div>
+				 <a href="#/admin/new" class="btn btn-success">New Service</a>
+				 <a href="/" class="btn btn-primary">Ver Monitor</a>
+				  
+				</div>
+ 
+ 
+ 
+ 
+ <div class="list-group">
+ <!--
+ <a href="#" class="list-group-item active" ng-repeat="service in services | filter:query | orderBy:orderProp"> 
+  -->
+ 
+  <a href="#/admin/{{service._id}}" class="list-group-item" ng-repeat="service in services | filter:query | orderBy:orderProp">
+    <h4 class="list-group-item-heading">{{service.name}}</h4>
+    
+    
+    <span class="badge">{{service.status.status}} - {{service.status.time}}</span>
+    {{service.type}}
+  <p class="list-group-item-text">{{service.url}}</p>
+  </a>
+</div>
+ 
+
+<!--  
+<ul class="phones">
+  <li ng-repeat="service in services | filter:query | orderBy:orderProp" class="thumbnail">
+  <a href="#/admin/{{service.name}}" class="thumb"><img ng-src="{{phone.imageUrl}}"></a>
+  
+  <a href="#/admin/{{service._id}}">{{service.name}}</a>
+            <p>{{service.type}} - {{service.url}}</p>
+            <span>
+            {{service.params.host}} {{service.params.path}}
+            {{service.params.user}} {{service.params.password}}
+            {{service.params.https}} {{service.params.port}}
+            </span>
+            
+  </li>
+</ul>
+
+ -->
+    </div>
+  </div>
+</div>
