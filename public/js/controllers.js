@@ -18,31 +18,35 @@ function ServiceDetailCtrl($scope,$routeParams,Service)  {
 	
 	$scope.types = ["web", "ping","telnet", "hudson", "sonar", "jmx"];
 	
-	$scope.service = Service.get({serviceId: $routeParams.serviceId}, 
-		function(service) {
-	    	//$scope.mainImageUrl = service.images[0];
-			console.log('service '+service.name);
-	  	},
+	if ($routeParams.serviceId){
+		//Se quiere recuperar uno que existe
+		$scope.service = Service.get({serviceId: $routeParams.serviceId}, 
+				function(service) {
+			    	//$scope.mainImageUrl = service.images[0];
+					console.log('service '+service.name);
+			  	},
 
-		function(error){
-	  		console.log("error ", error);
-	  		}
-	
-	
-	);	
-	
-	/*
-	
-	 $http.get('js/' + $routeParams.phoneId + '.json').success(function(data) {
-		 	
-		    $scope.phone = data;
-		    $scope.mainImageUrl = data.images[0];
-		  });
+				function(error){
+			  		console.log("error ", error);
+			  	}
+			
+			
+			);	
+	}else {
+		//es nuevo
+		$scope.service = 
+				{"name": "", 
+				"type": "", 
+				"url": "", 
+				"status": {"status":"", "time": 0, "message":""},
+				"params":{ "host":"", "port":"", "secure":false, "user":"", "pwd": "","object":"", "property":"",}
+				}
 
-	 */
-	 $scope.setImage = function(imageUrl) {
-		    $scope.mainImageUrl = imageUrl;
-		  }	 
+				
+		
+	}
+	
+	
 	 
 	 
 	 $scope.update= function(){
@@ -61,13 +65,14 @@ function ServiceDetailCtrl($scope,$routeParams,Service)  {
 			);
 		 }else {
 			 //es nuevo
-			 
 			 s.$save({serviceId: $scope.service._id},
 					 function(service, headers){
 				 			console.log('ok insert service '+service.name +  ' ID '+service._id);
 				 			$scope.service=service;
 				 		}, 
-					 function(err){console.log(err)}
+					 function(err){
+				 			console.log(err)
+				 		}
 					 );
 			 
 		 }
