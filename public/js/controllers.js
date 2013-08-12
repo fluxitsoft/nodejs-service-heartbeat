@@ -17,8 +17,8 @@ function ServiceDetailCtrl($scope,$routeParams,Service)  {
 //function PhoneDetailCtrl($scope, $routeParams, $http)  {
 	
 	$scope.types = ["web", "ping","telnet", "hudson", "sonar", "jmx"];
-	
-	if ($routeParams.serviceId){
+	console.log('Detail '+$routeParams.serviceId)
+	if ($routeParams.serviceId != 'new'){
 		//Se quiere recuperar uno que existe
 		$scope.service = Service.get({serviceId: $routeParams.serviceId}, 
 				function(service) {
@@ -34,6 +34,7 @@ function ServiceDetailCtrl($scope,$routeParams,Service)  {
 			);	
 	}else {
 		//es nuevo
+		console.log('new service ...');
 		$scope.service = 
 				{"name": "", 
 				"type": "", 
